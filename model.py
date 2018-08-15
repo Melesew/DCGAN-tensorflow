@@ -15,9 +15,9 @@ def conv_out_size_same(size, stride):
 
 class DCGAN(object):
   def __init__(self, sess, input_height=108, input_width=108, crop=True,
-         batch_size=64, sample_num = 64, output_height=64, output_width=64,
+         batch_size=1, sample_num = 1, output_height=256, output_width=256,
          y_dim=None, z_dim=100, gf_dim=64, df_dim=64,
-         gfc_dim=1024, dfc_dim=1024, c_dim=3, dataset_name='default',
+         gfc_dim=2048, dfc_dim=2048, c_dim=3, dataset_name='default',
          input_fname_pattern='*.jpg', checkpoint_dir=None, sample_dir=None, data_dir='./data'):
     """
 
@@ -404,6 +404,9 @@ class DCGAN(object):
             [self.batch_size, s_h2, s_w2, self.gf_dim * 2], name='g_h2')))
         h2 = conv_cond_concat(h2, yb)
 
+        print((tf.nn.sigmoid(
+            deconv2d(h2, [self.batch_size, s_h, s_w, self.c_dim], name='g_h3'))).shape)
+
         return tf.nn.sigmoid(
             deconv2d(h2, [self.batch_size, s_h, s_w, self.c_dim], name='g_h3'))
 
@@ -456,6 +459,8 @@ class DCGAN(object):
         h2 = tf.nn.relu(self.g_bn2(
             deconv2d(h1, [self.batch_size, s_h2, s_w2, self.gf_dim * 2], name='g_h2'), train=False))
         h2 = conv_cond_concat(h2, yb)
+
+        print("Sampler Shape: " + (tf.nn.sigmoid(deconv2d(h2, [self.batch_size, s_h, s_w, self.c_dim], name='g_h3'))).shape)
 
         return tf.nn.sigmoid(deconv2d(h2, [self.batch_size, s_h, s_w, self.c_dim], name='g_h3'))
 

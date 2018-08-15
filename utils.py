@@ -23,13 +23,14 @@ def show_all_variables():
   slim.model_analyzer.analyze_vars(model_vars, print_info=True)
 
 def get_image(image_path, input_height, input_width,
-              resize_height=64, resize_width=64,
+              resize_height=256, resize_width=256,
               crop=True, grayscale=False):
   image = imread(image_path, grayscale)
   return transform(image, input_height, input_width,
                    resize_height, resize_width, crop)
 
 def save_images(images, size, image_path):
+  print(images.shape)
   return imsave(inverse_transform(images), size, image_path)
 
 def imread(path, grayscale = False):
@@ -46,10 +47,10 @@ def merge(images, size):
   if (images.shape[3] in (3,4)):
     c = images.shape[3]
     img = np.zeros((h * size[0], w * size[1], c))
-    for idx, image in enumerate(images):
-      i = idx % size[1]
-      j = idx // size[1]
-      img[j * h:j * h + h, i * w:i * w + w, :] = image
+    # for idx, image in enumerate(images):
+    #   i = idx % size[1]
+    #   j = idx // size[1]
+    #   img[j * h:j * h + h, i * w:i * w + w, :] = image
     return img
   elif images.shape[3]==1:
     img = np.zeros((h * size[0], w * size[1]))
@@ -63,11 +64,19 @@ def merge(images, size):
                      'must have dimensions: HxW or HxWx3 or HxWx4')
 
 def imsave(images, size, path):
-  image = np.squeeze(merge(images, size))
-  return scipy.misc.imsave(path, image)
+  for img in images:
+    image = scipy.misc.imsave(path, img)
+
+  # print("Image shape[0] "+ image.shape[0])
+  # print("Image shape[1] "+ image.shape[1])
+  # print("Image shape[2] "+ image.shape[2])
+
+  return image
+  # image = np.squeeze(images, size)
+  # return scipy.misc.imsave(path, image)
 
 def center_crop(x, crop_h, crop_w,
-                resize_h=64, resize_w=64):
+                resize_h=256, resize_w=256):
   if crop_w is None:
     crop_w = crop_h
   h, w = x.shape[:2]
@@ -77,7 +86,7 @@ def center_crop(x, crop_h, crop_w,
       x[j:j+crop_h, i:i+crop_w], [resize_h, resize_w])
 
 def transform(image, input_height, input_width, 
-              resize_height=64, resize_width=64, crop=True):
+              resize_height=256, resize_width=256, crop=True):
   if crop:
     cropped_image = center_crop(
       image, input_height, input_width, 
