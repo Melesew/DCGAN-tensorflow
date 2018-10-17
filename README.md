@@ -26,7 +26,7 @@ To test with an existing model:
 
 ## Results
 
-- Generated data is found [here](https://gitlab.com/Melesew/plant_disease_detection/blob/master/generated_plant_leafs/.gitkeep)
+- Generated data is found [here](https://gitlab.com/Melesew/plant_disease_detection/blob/master/generated_plant_leafs)
 
 ## Related works
 
