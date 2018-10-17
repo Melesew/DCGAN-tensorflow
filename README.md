@@ -6,12 +6,13 @@ Tensorflow implementation of [Deep Convolutional Generative Adversarial Networks
 ## Prerequisites
 
 - Python 2.7 or Python 3.3+
-- [Tensorflow 0.12.1](https://github.com/tensorflow/tensorflow/tree/r0.12)
+- [Tensorflow](https://github.com/tensorflow/tensorflow/tree/r0.12)
 - [SciPy](http://www.scipy.org/install.html)
 - [pillow](https://github.com/python-pillow/Pillow)
-- (Optional) [moviepy](https://github.com/Zulko/moviepy) (for visualization)
-- (Optional) [Align&Cropped Images.zip](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html) : Large-scale CelebFaces Dataset
 
+## Resources
+
+- [Data set](https://github.com/spMohanty/PlantVillage-Dataset)
 
 ## Usage
 
@@ -23,22 +24,9 @@ To test with an existing model:
 
     $ python main.py --dataset "folder_name" --input_height=100 --output_height=100
 
-Or, you can use your own dataset (without central crop) by:
+## Results
 
-    $ mkdir data/DATASET_NAME
-    ... add images to data/DATASET_NAME ...
-    $ python main.py --dataset DATASET_NAME --train
-    $ python main.py --dataset DATASET_NAME
-    $ # example
-    $ python main.py --dataset=eyes --input_fname_pattern="*_cropped.png" --train
-
-If your dataset is located in a different root directory:
-
-    $ python main.py --dataset DATASET_NAME --data_dir DATASET_ROOT_DIR --train
-    $ python main.py --dataset DATASET_NAME --data_dir DATASET_ROOT_DIR
-    $ # example
-    $ python main.py --dataset=eyes --data_dir ../datasets/ --input_fname_pattern="*_cropped.png" --train
-    
+- Generated data is found [here](https://gitlab.com/Melesew/plant_disease_detection/blob/master/generated_plant_leafs/.gitkeep)
 
 ## Related works
 
